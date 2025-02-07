@@ -1,17 +1,18 @@
 // See https://containers.dev/implementors/json_reference/ for configuration reference
 {
-	"name": "Untitled Node.js project",
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
+  "name": "Untitled Node.js project",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "dsznajder.es7-react-js-snippets",
-                "esbenp.prettier-vscode"
-            ]
-        }
-    },
-    "remoteUser": "root"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dsznajder.es7-react-js-snippets",
+        "esbenp.prettier-vscode",
+        "nucllear.vscode-extension-auto-import"
+      ]
+    }
+  },
+  "remoteUser": "root"
 }

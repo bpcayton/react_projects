@@ -4,6 +4,7 @@ import Star from "../../assets/glowing-star.png";
 import Party from "../../assets/partying-face.png";
 
 import "./Navbar.css";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -11,16 +12,16 @@ const Navbar = () => {
       <h1>MovieManiac</h1>
 
       <div className="navbar_links">
-        <a href="#popular">
+        <NavLink to="/">
           Popular <img src={Fire} alt="fire emoji" className="navbar_emoji" />
-        </a>
-        <a href="#top_rated">
+        </NavLink>
+        <NavLink to="/top_rated">
           Top Rated <img src={Star} alt="star emoji" className="navbar_emoji" />
-        </a>
-        <a href="#upcoming">
+        </NavLink>
+        <NavLink to="/upcoming">
           Upcoming
           <img src={Party} alt="party face emoji" className="navbar_emoji" />
-        </a>
+        </NavLink>
       </div>
     </nav>
   );

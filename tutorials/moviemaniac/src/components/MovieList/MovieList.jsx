@@ -18,7 +18,7 @@ const MovieList = ({ type, title, emoji }) => {
   // Use effect for getting movies
   useEffect(() => {
     fetchMovies();
-  }, []);
+  }, [type]);
 
   // Use effect for sorting / ordering
   useEffect(() => {

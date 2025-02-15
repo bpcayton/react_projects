@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../utils/api-client";
 import Loader from "../Common/Loader";
 
 const Sellers = () => {
@@ -11,8 +11,8 @@ const Sellers = () => {
     // fetchSellers();
     setIsLoading(true);
     setErrors("");
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
+    apiClient
+      .get("/users")
       .then((res) => {
         setSellers(res.data);
         setIsLoading(false);
@@ -27,7 +27,7 @@ const Sellers = () => {
   //   const fetchSellers = async () => {
   //     setIsLoading(true);
   //     try {
-  //       const res = await axios.get("https://jsonplaceholder.typicode.com/users");
+  //       const res = await apiClient.get("/users");
   //       setSellers(res.data);
   //       setIsLoading(false);
   //     } catch (error) {
@@ -42,8 +42,8 @@ const Sellers = () => {
       id: sellers.length + 1,
     };
     setSellers([newSeller, ...sellers]);
-    axios
-      .post("https://jsonplaceholder.typicode.com/users", newSeller)
+    apiClient
+      .post("/users", newSeller)
       .then((res) => setSellers([res.data, ...sellers]))
       .catch((err) => {
         setErrors(err.message);
@@ -53,8 +53,8 @@ const Sellers = () => {
 
   const handleDeleteSeller = (seller) => {
     setSellers(sellers.filter((s) => s.id !== seller.id));
-    axios
-      .delete(`https://jsonplaceholder.typicode.com/users/${seller.id}`)
+    apiClient
+      .delete(`/users/${seller.id}`)
       .then((res) => console.log(res))
       .catch((err) => {
         setErrors(err.message);
@@ -65,8 +65,8 @@ const Sellers = () => {
   const handleUpdateSeller = (seller) => {
     const updateName = seller.name + " Updated";
     setIsLoading(true);
-    axios
-      .patch(`https://jsonplaceholder.typicode.com/users/${seller.id}`)
+    apiClient
+      .patch(`/users/${seller.id}`)
       .then((res) => {
         if (res.status === 200) {
           const index = sellers.findIndex((obj) => obj.id === seller.id);
@@ -77,6 +77,7 @@ const Sellers = () => {
         setIsLoading(false);
       })
       .catch((err) => {
+        setSellers(sellers);
         setErrors(err.message);
         setIsLoading(false);
       });

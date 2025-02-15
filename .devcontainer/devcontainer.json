@@ -1,9 +1,11 @@
 // See https://containers.dev/implementors/json_reference/ for configuration reference
 {
-  "name": "Untitled Node.js project",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "name": "React with MongoDB",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "app",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [3000, 27017],
 
   "customizations": {
     "vscode": {

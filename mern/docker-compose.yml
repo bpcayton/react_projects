@@ -1,0 +1,62 @@
+version: "3.8"
+networks:
+  mongo-compose-network:
+    driver: bridge
+
+services:
+  app:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: react
+    ports:
+      - 3000:80
+    depends_on:
+      - api
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: express
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/cartwish
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    networks:
+      - mongo-compose-network
+
+  mongodb:
+    networks:
+      - mongo-compose-network
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ./data:/data/db
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017?authSource=admin
+      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
+    depends_on:
+      - mongodb
+    networks:
+      - mongo-compose-network

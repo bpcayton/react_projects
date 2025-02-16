@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:20 AS builder
 
 
 ADD dod_proxy.crt /usr/share/ca-certificates
@@ -15,7 +15,10 @@ ARG USERNAME=node
 RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
-# Set `DEVCONTAINER` environment variable to help with orientation
-ENV DEVCONTAINER=true
 
-EXPOSE 80
+# New stuff
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD ["npm", "run", "dev"]
